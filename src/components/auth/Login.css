@@ -1,0 +1,92 @@
+/* Reset some base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container styling */
+.login-container {
+  background-color: #ffffff;
+  padding: 40px 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Heading */
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+/* Inputs */
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-container input:focus {
+  border-color: #3f51b5;
+  box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.1);
+  outline: none;
+}
+
+/* Button */
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3f51b5;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container button:disabled {
+  background-color: #9fa8da;
+  cursor: not-allowed;
+}
+
+.login-container button:hover:not(:disabled) {
+  background-color: #303f9f;
+}
+
+p {
+    text-align: center;
+    margin-top: 16px;
+    color: #666;
+}
+
+.link {
+    color: #3f51b5;
+    cursor: pointer;
+    font: bold;
+}
+
+/* Error Message */
+.error {
+  color: #e53935;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;
+}
