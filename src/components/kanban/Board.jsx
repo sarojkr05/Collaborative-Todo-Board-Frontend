@@ -10,6 +10,7 @@ import ConflictModal from "../shared/ConflictModal";
 import socket from "../../utils/socket";
 import CreateTaskModal from "../../pages/CreateTaskModal";
 import ActionLogPanel from "../logs/ActionLogPanel";
+import { AnimatePresence } from "framer-motion";
 
 const statuses = ["Todo", "In Progress", "Done"];
 
@@ -80,9 +81,11 @@ export default function KanbanBoard() {
           ➕ Add Task
         </button>
 
-        {showCreateModal && (
-          <CreateTaskModal onClose={() => setShowCreateModal(false)} />
-        )}
+        <AnimatePresence>
+          {showCreateModal && (
+            <CreateTaskModal onClose={() => setShowCreateModal(false)} />
+          )}
+        </AnimatePresence>
 
         <div style={{ display: "flex", gap: "1rem" }}>
           {statuses.map((status) => (
@@ -96,35 +99,40 @@ export default function KanbanBoard() {
         </div>
       </DragDropContext>
 
-      {editTask && (
-        <EditTaskModal
-          task={editTask}
-          onClose={() => setEditTask(null)}
-          onConflict={(local, server) => {
-            setConflict({ local, server });
-            setEditTask(null);
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {editTask && (
+          <EditTaskModal
+            task={editTask}
+            onClose={() => setEditTask(null)}
+            onConflict={(local, server) => {
+              setConflict({ local, server });
+              setEditTask(null);
+            }}
+          />
+        )}
+      </AnimatePresence>
 
-      {conflict && (
-        <ConflictModal
-          conflict={conflict}
-          onResolve={(version) => {
-            setConflict(null);
-            axios
-              .put(`/tasks/${version._id}`, {
-                ...version,
-                lastModified: new Date(),
-              })
-              .then(() => {
-                toast.success("Resolved & updated");
-                dispatch(fetchTasks());
-              });
-          }}
-          onCancel={() => setConflict(null)}
-        />
-      )}
+      <AnimatePresence>
+        {conflict && (
+          <ConflictModal
+            conflict={conflict}
+            onResolve={(version) => {
+              setConflict(null);
+              axios
+                .put(`/tasks/${version._id}`, {
+                  ...version,
+                  lastModified: new Date(),
+                })
+                .then(() => {
+                  toast.success("Resolved & updated");
+                  dispatch(fetchTasks());
+                });
+            }}
+            onCancel={() => setConflict(null)}
+          />
+        )}
+      </AnimatePresence>
+
       <ActionLogPanel />
     </>
   );

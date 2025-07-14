@@ -1,13 +1,15 @@
 import { Droppable } from "react-beautiful-dnd";
+import { motion } from "framer-motion";
 import TaskCard from "./TaskCard";
 
 export default function KanbanColumn({ status, tasks, setEditTask }) {
   return (
     <Droppable droppableId={status}>
       {(provided, snapshot) => (
-        <div
+        <motion.div
           ref={provided.innerRef}
           {...provided.droppableProps}
+          transition={{ duration: 0.2 }}
           style={{
             flex: 1,
             padding: "1rem",
@@ -16,12 +18,12 @@ export default function KanbanColumn({ status, tasks, setEditTask }) {
             minHeight: "300px",
           }}
         >
-          <h3>{status}</h3>
+          <h3 style={{ marginBottom: "1rem" }}>{status}</h3>
           {tasks.map((task, index) => (
             <TaskCard key={task._id} task={task} index={index} setEditTask={setEditTask} />
           ))}
           {provided.placeholder}
-        </div>
+        </motion.div>
       )}
     </Droppable>
   );

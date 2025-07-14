@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
 import axios from "../../utils/api";
 import { useDispatch } from "react-redux";
 import { fetchTasks } from "../../redux/slices/taskSlice";
@@ -6,6 +8,7 @@ import { Draggable } from "react-beautiful-dnd";
 
 export default function TaskCard({ task, index, setEditTask }) {
   const dispatch = useDispatch();
+  const [flipped, setFlipped] = useState(false);
 
   const handleSmartAssign = async () => {
     try {
@@ -18,58 +21,95 @@ export default function TaskCard({ task, index, setEditTask }) {
   };
 
   const handleDelete = async () => {
-  if (!confirm("Are you sure?")) return;
-  try {
-    await axios.delete(`/tasks/${task._id}`);
-    toast.success("Task deleted");
-    dispatch(fetchTasks());
-  } catch (err) {
-    toast.error("Failed to delete task");
-  }
-};
+    if (!confirm("Are you sure?")) return;
+    try {
+      await axios.delete(`/tasks/${task._id}`);
+      toast.success("Task deleted");
+      dispatch(fetchTasks());
+    } catch (err) {
+      toast.error("Failed to delete task");
+    }
+  };
 
   return (
     <Draggable draggableId={task._id} index={index}>
-      {(provided, snapshot) => (
-        <div
+      {(provided) => (
+        <motion.div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           style={{
-            padding: "1rem",
-            marginBottom: "1rem",
-            backgroundColor: snapshot.isDragging ? "#fff9c4" : "white",
-            borderRadius: "6px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            perspective: 1000,
             ...provided.draggableProps.style,
           }}
+          onClick={() => setFlipped(!flipped)} // flip on click
         >
-          <h4>{task.title}</h4>
-          <p>{task.description}</p>
-          <p>
-            <strong>Priority:</strong> {task.priority}
-          </p>
-          <p style={{ fontStyle: "italic" }}>
-            {task.assignedUser
-              ? `Assigned to: ${task.assignedUser.name}`
-              : "Unassigned"}
-          </p>
-
-          <button onClick={() => setEditTask(task)}>✏️ Edit</button>
-
-          <button
-            onClick={handleDelete}
-            style={{ marginTop: "0.5rem", color: "red" }}
+          <motion.div
+            style={{
+              width: "100%",
+              minHeight: "180px",
+              position: "relative",
+              transformStyle: "preserve-3d",
+              transition: "transform 0.6s",
+              transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+            }}
           >
-            🗑️ Delete
-          </button>
+            {/* FRONT SIDE */}
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backfaceVisibility: "hidden",
+                backgroundColor: "white",
+                borderRadius: "6px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                padding: "1rem",
+              }}
+            >
+              <h4>{task.title}</h4>
+              <p>{task.description}</p>
+              <p><strong>Priority:</strong> {task.priority}</p>
+              <p style={{ fontStyle: "italic" }}>
+                {task.assignedUser
+                  ? `Assigned to: ${task.assignedUser.name}`
+                  : "Unassigned"}
+              </p>
+            </div>
 
-          {!task.assignedUser && (
-            <button onClick={handleSmartAssign} style={{ marginTop: "0.5rem" }}>
-              Smart Assign
-            </button>
-          )}
-        </div>
+            {/* BACK SIDE */}
+            <div
+              style={{
+                position: "absolute",
+                width: "100%",
+                height: "100%",
+                backfaceVisibility: "hidden",
+                backgroundColor: "#f9f9f9",
+                borderRadius: "6px",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                padding: "1rem",
+                transform: "rotateY(180deg)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "flex-start",
+              }}
+            >
+              <button onClick={() => setEditTask(task)}>✏️ Edit</button>
+              <button
+                onClick={handleDelete}
+                style={{ marginTop: "0.5rem", color: "red" }}
+              >
+                🗑️ Delete
+              </button>
+              {!task.assignedUser && (
+                <button onClick={handleSmartAssign} style={{ marginTop: "0.5rem" }}>
+                  Smart Assign
+                </button>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
       )}
     </Draggable>
   );
