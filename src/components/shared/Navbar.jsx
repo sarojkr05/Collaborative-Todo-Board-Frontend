@@ -1,22 +1,33 @@
-import { useDispatch } from "react-redux";
-import { logout } from "../../redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth?.user);
+  console.log("User from state", user)
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login");
+  const handleAuthAction = () => {
+    if (user) {
+      dispatch(logoutUser());
+      navigate("/login");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
-    <nav style={{ height: "60px", padding: "0 2rem", backgroundColor: "#20232a", color: "white", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-      <h2>📋 CollabBoard</h2>
-      <button onClick={handleLogout} style={{ backgroundColor: "#61dafb", border: "none", padding: "8px 16px", borderRadius: "4px", cursor: "pointer" }}>
-        Logout
-      </button>
+    <nav className="navbar">
+      <div className="navbar-left" onClick={() => navigate("/")}>
+        <h2 className="navbar-brand">📋 CollabBoard</h2>
+      </div>
+      <div className="navbar-right">
+        <button className="navbar-button" onClick={handleAuthAction}>
+          {user ? "Logout" : "Login"}
+        </button>
+      </div>
     </nav>
   );
 }

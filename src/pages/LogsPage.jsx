@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "../utils/api";
 import { toast } from "react-hot-toast";
 import socket from "../utils/socket";
+import "./LogsPage.css";
+import Navbar from "../components/Shared/Navbar";
 
 export default function LogsPage() {
   const [logs, setLogs] = useState([]);
@@ -19,25 +21,19 @@ export default function LogsPage() {
     fetchLogs();
 
     socket.on("log_created", fetchLogs);
-
     return () => {
       socket.off("log_created", fetchLogs);
     };
   }, []);
 
   return (
-    <div style={{ padding: "1rem", maxHeight: "80vh", overflowY: "auto" }}>
-      <h2>📜 Activity Logs</h2>
-      <ul style={{ listStyle: "none", padding: 0 }}>
+    <>
+    <Navbar />
+    <div className="logs-container">
+      <h2 className="logs-title">📜 Activity Logs</h2>
+      <ul className="logs-list">
         {logs.map((log) => (
-          <li
-            key={log._id}
-            style={{
-              padding: "0.5rem",
-              marginBottom: "0.5rem",
-              borderBottom: "1px solid #ccc",
-            }}
-          >
+          <li key={log._id} className="log-item">
             <p>
               <strong>{log.user?.name || "Someone"}</strong> {log.action}
               {log.task?.title ? ` on "${log.task.title}"` : ""}
@@ -47,5 +43,6 @@ export default function LogsPage() {
         ))}
       </ul>
     </div>
+    </>
   );
 }

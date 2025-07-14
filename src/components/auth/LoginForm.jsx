@@ -16,7 +16,7 @@ export default function LoginForm() {
     dispatch(loginUser(formData)).then((result) => {
       if (result.meta.requestStatus === "fulfilled") {
         toast.success("Login successful!");
-        navigate("/"); // redirect to dashboard
+        navigate("/");
       } else {
         toast.error(result.payload || "Login failed!");
       }
@@ -24,37 +24,49 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <input
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
-          required
-        />
-        <button type="submit" disabled={loading}>
-          Login
-        </button>
-        {/** don't have an account navigate to the register page */}
-        <p>
-          Don't have an account?{" "}
-          <span onClick={() => navigate("/register")} className="link">
-            Register
-          </span>
-          </p>
-        {error && <p className="error">{error}</p>}
-      </form>
+    <div className="login-wrapper">
+      <div className="login-card">
+        <form onSubmit={handleSubmit} className="login-form">
+          <h2 className="form-title">Welcome Back</h2>
+          <p className="form-subtitle">Login to continue</p>
+
+          <label className="form-label" htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            className="form-input"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+          />
+
+          <label className="form-label" htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            className="form-input"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            required
+          />
+
+          <button type="submit" disabled={loading} className="form-button">
+            {loading ? "Logging in..." : "Login"}
+          </button>
+
+          <div className="form-footer">
+            <p>
+              Don't have an account?{" "}
+              <span onClick={() => navigate("/register")} className="link">
+                Register
+              </span>
+            </p>
+            {error && <p className="error">{error}</p>}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

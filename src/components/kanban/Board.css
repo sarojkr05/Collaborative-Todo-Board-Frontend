@@ -1,0 +1,47 @@
+.kanban-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  padding-right: 1rem;
+}
+
+.add-task-btn {
+  padding: 10px 16px;
+  background-color: #1976d2;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-task-btn:hover {
+  background-color: #125ea8;
+}
+
+.kanban-board {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 0 1rem 1rem;
+  scroll-behavior: smooth;
+
+  height: auto;      /* ✅ no constraint */
+  flex: none;        /* ✅ don't stretch it */
+}
+
+
+
+.kanban-board::-webkit-scrollbar {
+  height: 8px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.kanban-board::-webkit-scrollbar-track {
+  background: transparent;
+}

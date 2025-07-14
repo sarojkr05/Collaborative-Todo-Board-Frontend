@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { fetchTasks } from "../../redux/slices/taskSlice";
 import { toast } from "react-hot-toast";
 import { Draggable } from "react-beautiful-dnd";
+import "./TaskCard.css";
 
 export default function TaskCard({ task, index, setEditTask }) {
   const dispatch = useDispatch();
@@ -38,39 +39,18 @@ export default function TaskCard({ task, index, setEditTask }) {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          style={{
-            perspective: 1000,
-            ...provided.draggableProps.style,
-          }}
-          onClick={() => setFlipped(!flipped)} // flip on click
+          className="task-card-wrapper"
+          onClick={() => setFlipped(!flipped)}
         >
           <motion.div
-            style={{
-              width: "100%",
-              minHeight: "180px",
-              position: "relative",
-              transformStyle: "preserve-3d",
-              transition: "transform 0.6s",
-              transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
-            }}
+            className={`task-card-inner ${flipped ? "flipped" : ""}`}
           >
             {/* FRONT SIDE */}
-            <div
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                backfaceVisibility: "hidden",
-                backgroundColor: "white",
-                borderRadius: "6px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                padding: "1rem",
-              }}
-            >
+            <div className="task-card-front">
               <h4>{task.title}</h4>
               <p>{task.description}</p>
               <p><strong>Priority:</strong> {task.priority}</p>
-              <p style={{ fontStyle: "italic" }}>
+              <p className="task-assigned">
                 {task.assignedUser
                   ? `Assigned to: ${task.assignedUser.name}`
                   : "Unassigned"}
@@ -78,34 +58,13 @@ export default function TaskCard({ task, index, setEditTask }) {
             </div>
 
             {/* BACK SIDE */}
-            <div
-              style={{
-                position: "absolute",
-                width: "100%",
-                height: "100%",
-                backfaceVisibility: "hidden",
-                backgroundColor: "#f9f9f9",
-                borderRadius: "6px",
-                boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-                padding: "1rem",
-                transform: "rotateY(180deg)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "flex-start",
-              }}
-            >
+            <div className="task-card-back">
               <button onClick={() => setEditTask(task)}>✏️ Edit</button>
-              <button
-                onClick={handleDelete}
-                style={{ marginTop: "0.5rem", color: "red" }}
-              >
+              <button onClick={handleDelete} className="delete-btn">
                 🗑️ Delete
               </button>
               {!task.assignedUser && (
-                <button onClick={handleSmartAssign} style={{ marginTop: "0.5rem" }}>
-                  Smart Assign
-                </button>
+                <button onClick={handleSmartAssign}>Smart Assign</button>
               )}
             </div>
           </motion.div>

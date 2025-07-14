@@ -9,8 +9,8 @@ import EditTaskModal from "../../pages/EditTaskModal";
 import ConflictModal from "../shared/ConflictModal";
 import socket from "../../utils/socket";
 import CreateTaskModal from "../../pages/CreateTaskModal";
-import ActionLogPanel from "../logs/ActionLogPanel";
 import { AnimatePresence } from "framer-motion";
+import "./Board.css";
 
 const statuses = ["Todo", "In Progress", "Done"];
 
@@ -22,20 +22,12 @@ export default function KanbanBoard() {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchTasks()); // initial fetch of tasks
-    // listen for real-time task updates
-    socket.on("task_updated", (updatedTask) => {
-      toast.success(`Task ${updatedTask.title} updated!`);
-      dispatch(fetchTasks());
-    });
-    socket.on("task_created", (createdTask) => {
-      toast.success(`Task ${createdTask.title} updated!`);
-      dispatch(fetchTasks());
-    });
-    socket.on("task_deleted", (deletedTask) => {
-      toast.success(`Task ${deletedTask.title} updated!`);
-      dispatch(fetchTasks());
-    });
+    dispatch(fetchTasks());
+
+    socket.on("task_updated", () => dispatch(fetchTasks()));
+    socket.on("task_created", () => dispatch(fetchTasks()));
+    socket.on("task_deleted", () => dispatch(fetchTasks()));
+
     return () => {
       socket.off("task_updated");
       socket.off("task_created");
@@ -48,46 +40,36 @@ export default function KanbanBoard() {
 
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
+    if (!destination || (source.droppableId === destination.droppableId && source.index === destination.index)) return;
 
-    if (!destination) return;
-
-    if (
-      source.droppableId === destination.droppableId &&
-      source.index === destination.index
-    )
-      return;
-
-    const newStatus = destination.droppableId;
     try {
       await axios.put(`/tasks/${draggableId}`, {
-        status: newStatus,
+        status: destination.droppableId,
         lastModified: new Date(),
       });
       toast.success("Task updated!");
       dispatch(fetchTasks());
     } catch (err) {
       toast.error("Failed to update task");
-      console.log(err);
     }
   };
 
   return (
     <>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <button
-          onClick={() => setShowCreateModal(true)}
-          style={{ marginBottom: "1rem" }}
-        >
+      <div className="kanban-header">
+        <button className="add-task-btn" onClick={() => setShowCreateModal(true)}>
           ➕ Add Task
         </button>
+      </div>
 
-        <AnimatePresence>
-          {showCreateModal && (
-            <CreateTaskModal onClose={() => setShowCreateModal(false)} />
-          )}
-        </AnimatePresence>
+      <AnimatePresence>
+        {showCreateModal && (
+          <CreateTaskModal onClose={() => setShowCreateModal(false)} />
+        )}
+      </AnimatePresence>
 
-        <div style={{ display: "flex", gap: "1rem" }}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="kanban-board">
           {statuses.map((status) => (
             <KanbanColumn
               key={status}
@@ -132,8 +114,6 @@ export default function KanbanBoard() {
           />
         )}
       </AnimatePresence>
-
-      <ActionLogPanel />
     </>
   );
 }

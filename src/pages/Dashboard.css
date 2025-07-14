@@ -2,6 +2,8 @@
   display: flex;
   height: calc(100vh - 60px);
   width: 100vw;
+  overflow: hidden;
+  background: #f1f3f6;
 }
 
 .dashboard-main {
@@ -9,5 +11,13 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  background: #fff;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.04);
+
+  /* overflow-y: auto;      */
+  min-height: 0;
   overflow: hidden;
 }
