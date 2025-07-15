@@ -30,25 +30,33 @@ export default function LoginForm() {
           <h2 className="form-title">Welcome Back</h2>
           <p className="form-subtitle">Login to continue</p>
 
-          <label className="form-label" htmlFor="email">Email</label>
+          <label className="form-label" htmlFor="email">
+            Email
+          </label>
           <input
             id="email"
             type="email"
             className="form-input"
             placeholder="Enter your email"
             value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             required
           />
 
-          <label className="form-label" htmlFor="password">Password</label>
+          <label className="form-label" htmlFor="password">
+            Password
+          </label>
           <input
             id="password"
             type="password"
             className="form-input"
             placeholder="Enter your password"
             value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             required
           />
 

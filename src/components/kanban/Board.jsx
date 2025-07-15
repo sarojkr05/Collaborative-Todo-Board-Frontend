@@ -40,7 +40,12 @@ export default function KanbanBoard() {
 
   const onDragEnd = async (result) => {
     const { source, destination, draggableId } = result;
-    if (!destination || (source.droppableId === destination.droppableId && source.index === destination.index)) return;
+    if (
+      !destination ||
+      (source.droppableId === destination.droppableId &&
+        source.index === destination.index)
+    )
+      return;
 
     try {
       await axios.put(`/tasks/${draggableId}`, {
@@ -57,7 +62,10 @@ export default function KanbanBoard() {
   return (
     <>
       <div className="kanban-header">
-        <button className="add-task-btn" onClick={() => setShowCreateModal(true)}>
+        <button
+          className="add-task-btn"
+          onClick={() => setShowCreateModal(true)}
+        >
           ➕ Add Task
         </button>
       </div>

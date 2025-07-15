@@ -11,7 +11,7 @@ import LogsPage from "./pages/LogsPage";
 
 function App() {
   useEffect(() => {
-    socket.connect(); // 👈 ensure socket is connected
+    socket.connect();
 
     socket.on("toast", ({ message, type }) => {
       if (type === "success") toast.success(message);

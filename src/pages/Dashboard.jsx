@@ -1,7 +1,7 @@
 import KanbanBoard from "../components/kanban/Board";
-import Sidebar from "../components/Shared/Sidebar";
-import Navbar from "../components/Shared/Navbar";
-import ActionLogPanel from "../components/logs/ActionLogPanel"
+import ActionLogPanel from "../components/logs/ActionLogPanel";
+import Navbar from "../components/shared/Navbar";
+import Sidebar from "../components/shared/Sidebar";
 import "./Dashboard.css";
 
 export default function Dashboard() {

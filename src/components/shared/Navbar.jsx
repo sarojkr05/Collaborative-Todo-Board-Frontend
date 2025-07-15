@@ -7,7 +7,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth?.user);
-  console.log("User from state", user)
+  console.log("User from state", user);
 
   const handleAuthAction = () => {
     if (user) {

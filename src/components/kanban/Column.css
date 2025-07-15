@@ -8,7 +8,6 @@
   padding: 1rem;
   box-shadow: inset 0 0 0 1px #e0e0e0;
   transition: background-color 0.2s ease;
-
   height: auto;
   overflow: visible;
 }

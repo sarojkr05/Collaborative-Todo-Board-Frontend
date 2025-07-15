@@ -42,14 +42,14 @@ export default function TaskCard({ task, index, setEditTask }) {
           className="task-card-wrapper"
           onClick={() => setFlipped(!flipped)}
         >
-          <motion.div
-            className={`task-card-inner ${flipped ? "flipped" : ""}`}
-          >
+          <motion.div className={`task-card-inner ${flipped ? "flipped" : ""}`}>
             {/* FRONT SIDE */}
             <div className="task-card-front">
               <h4>{task.title}</h4>
               <p>{task.description}</p>
-              <p><strong>Priority:</strong> {task.priority}</p>
+              <p>
+                <strong>Priority:</strong> {task.priority}
+              </p>
               <p className="task-assigned">
                 {task.assignedUser
                   ? `Assigned to: ${task.assignedUser.name}`

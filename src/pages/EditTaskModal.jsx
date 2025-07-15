@@ -12,14 +12,15 @@ export default function EditTaskModal({ task, onClose, onConflict }) {
     title: task.title,
     description: task.description,
     priority: task.priority,
+    lastModified: task.lastModified,
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log("Submitting update:", form);
       await axios.put(`/tasks/${task._id}`, {
         ...form,
-        lastModified: task.lastModified,
       });
       toast.success("Task updated!");
       onClose();
@@ -75,8 +76,12 @@ export default function EditTaskModal({ task, onClose, onConflict }) {
               <option>High</option>
             </select>
             <div className="form-buttons">
-              <button type="submit" className="btn update">Update</button>
-              <button type="button" className="btn cancel" onClick={onClose}>Cancel</button>
+              <button type="submit" className="btn update">
+                Update
+              </button>
+              <button type="button" className="btn cancel" onClick={onClose}>
+                Cancel
+              </button>
             </div>
           </form>
         </motion.div>

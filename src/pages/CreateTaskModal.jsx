@@ -56,7 +56,9 @@ export default function CreateTaskModal({ onClose }) {
               className="form-textarea"
               placeholder="Description"
               value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
             />
             <select
               className="form-select"
@@ -68,8 +70,12 @@ export default function CreateTaskModal({ onClose }) {
               <option>High</option>
             </select>
             <div className="form-buttons">
-              <button type="submit" className="btn create">Create</button>
-              <button type="button" onClick={onClose} className="btn cancel">Cancel</button>
+              <button type="submit" className="btn create">
+                Create
+              </button>
+              <button type="button" onClick={onClose} className="btn cancel">
+                Cancel
+              </button>
             </div>
           </form>
         </motion.div>

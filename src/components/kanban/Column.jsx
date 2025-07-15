@@ -10,7 +10,9 @@ export default function KanbanColumn({ status, tasks, setEditTask }) {
         <motion.div
           ref={provided.innerRef}
           {...provided.droppableProps}
-          className={`kanban-column ${snapshot.isDraggingOver ? "dragging-over" : ""}`}
+          className={`kanban-column ${
+            snapshot.isDraggingOver ? "dragging-over" : ""
+          }`}
         >
           <h3 className="kanban-column-title">{status}</h3>
           {tasks.map((task, index) => (

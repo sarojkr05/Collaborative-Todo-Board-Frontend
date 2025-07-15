@@ -34,7 +34,9 @@ export default function RegisterForm() {
           <h2 className="form-title">Create Account</h2>
           <p className="form-subtitle">Start your journey with us</p>
 
-          <label className="form-label" htmlFor="name">Name</label>
+          <label className="form-label" htmlFor="name">
+            Name
+          </label>
           <input
             id="name"
             type="text"
@@ -45,25 +47,33 @@ export default function RegisterForm() {
             required
           />
 
-          <label className="form-label" htmlFor="email">Email</label>
+          <label className="form-label" htmlFor="email">
+            Email
+          </label>
           <input
             id="email"
             type="email"
             className="form-input"
             placeholder="Enter your email"
             value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             required
           />
 
-          <label className="form-label" htmlFor="password">Password</label>
+          <label className="form-label" htmlFor="password">
+            Password
+          </label>
           <input
             id="password"
             type="password"
             className="form-input"
             placeholder="Create a password"
             value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             required
           />
 
